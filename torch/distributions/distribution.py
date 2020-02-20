@@ -36,6 +36,7 @@ class Distribution(object):
                     raise ValueError("The parameter {} has invalid values".format(param))
         super(Distribution, self).__init__()
 
+    @abstractmethod
     def expand(self, batch_shape, _instance=None):
         """
         Returns a new distribution instance (or populates an existing instance
@@ -72,6 +73,7 @@ class Distribution(object):
         return self._event_shape
 
     @property
+    @abstractmethod
     def arg_constraints(self):
         """
         Returns a dictionary from argument names to
@@ -82,6 +84,7 @@ class Distribution(object):
         raise NotImplementedError
 
     @property
+    @abstractmethod
     def support(self):
         """
         Returns a :class:`~torch.distributions.constraints.Constraint` object
@@ -90,6 +93,7 @@ class Distribution(object):
         raise NotImplementedError
 
     @property
+    @abstractmethod
     def mean(self):
         """
         Returns the mean of the distribution.
@@ -97,6 +101,7 @@ class Distribution(object):
         raise NotImplementedError
 
     @property
+    @abstractmethod
     def variance(self):
         """
         Returns the variance of the distribution.
@@ -118,6 +123,7 @@ class Distribution(object):
         with torch.no_grad():
             return self.rsample(sample_shape)
 
+    @abstractmethod
     def rsample(self, sample_shape=torch.Size()):
         """
         Generates a sample_shape shaped reparameterized sample or sample_shape
@@ -134,6 +140,7 @@ class Distribution(object):
         warnings.warn('sample_n will be deprecated. Use .sample((n,)) instead', UserWarning)
         return self.sample(torch.Size((n,)))
 
+    @abstractmethod
     def log_prob(self, value):
         """
         Returns the log of the probability density/mass function evaluated at
@@ -143,7 +150,8 @@ class Distribution(object):
             value (Tensor):
         """
         raise NotImplementedError
-
+    
+    @abstractmethod
     def cdf(self, value):
         """
         Returns the cumulative density/mass function evaluated at
@@ -154,6 +162,7 @@ class Distribution(object):
         """
         raise NotImplementedError
 
+    @abstractmethod
     def icdf(self, value):
         """
         Returns the inverse cumulative density/mass function evaluated at
@@ -164,6 +173,7 @@ class Distribution(object):
         """
         raise NotImplementedError
 
+    @abstractmethod
     def enumerate_support(self, expand=True):
         """
         Returns tensor containing all values supported by a discrete
@@ -188,6 +198,7 @@ class Distribution(object):
         """
         raise NotImplementedError
 
+    @abstractmethod
     def entropy(self):
         """
         Returns entropy of distribution, batched over batch_shape.
